@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, type ChangeEvent } from "react";
 import questionData from "./data/questions.json";
 
@@ -81,6 +82,15 @@ export default function Home() {
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-16">
       <div className="w-full max-w-3xl space-y-8">
+        <div className="flex justify-center">
+          <Image
+            src="/logo.png"
+            alt="HogPulse logo"
+            width={120}
+            height={120}
+            priority
+          />
+        </div>
         <header className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="space-y-2">
             <p className="text-xs uppercase tracking-[0.35em] text-[var(--muted)]">

@@ -11,6 +11,10 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "HogPulse",
   description: "Live event feedback, fast and minimal.",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+  },
 };
 
 type RootLayoutProps = {
