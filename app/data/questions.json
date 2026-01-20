@@ -1,0 +1,22 @@
+[
+  {
+    "id": "reaction-value",
+    "title": "What part of our new Product Tours feature felt most useful to your use case?",
+    "type": "feedback"
+  },
+  {
+    "id": "reaction-clarity",
+    "title": "What would make Product Tours more valuable to you?",
+    "type": "feedback"
+  },
+  {
+    "id": "reaction-clarity",
+    "title": "What is your current alternative to Product Tours?",
+    "type": "feedback"
+  },
+  {
+    "id": "stay-in-touch",
+    "title": "Want to stay in the loop? Share your name and email.",
+    "type": "contact"
+  }
+]
