@@ -24,6 +24,7 @@ export default function Home() {
   const total = questions.length;
   const [index, setIndex] = useState(0);
   const [responses, setResponses] = useState<ResponsesById>({});
+  const [isComplete, setIsComplete] = useState(false);
 
   if (total === 0) {
     return null;
@@ -34,7 +35,9 @@ export default function Home() {
     return null;
   }
 
-  const isContact = index === total - 1;
+  const isFirst = index === 0;
+  const isLast = index === total - 1;
+  const isContact = isLast;
 
   const goPrev = () => {
     setIndex((current) => (current - 1 + total) % total);
@@ -75,9 +78,18 @@ export default function Home() {
             ...existing,
             [field]: value,
           },
-        };
-      });
-    };
+      };
+    });
+  };
+
+  const handleSubmit = () => {
+    if (isLast) {
+      setIsComplete(true);
+      return;
+    }
+
+    goNext();
+  };
 
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-16">
@@ -97,31 +109,47 @@ export default function Home() {
               HogPulse Live Feedback
             </p>
             <h1 className="text-3xl font-semibold leading-tight md:text-4xl">
-              {question.title}
+              {isComplete ? "Thanks for the feedback!" : question.title}
             </h1>
           </div>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={goPrev}
-              aria-label="Previous question"
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--border)] bg-white/80 text-xl text-[var(--ink)] transition hover:-translate-y-0.5 hover:bg-white"
-            >
-              <span aria-hidden>{"<"}</span>
-            </button>
-            <button
-              type="button"
-              onClick={goNext}
-              aria-label="Next question"
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--border)] bg-white/80 text-xl text-[var(--ink)] transition hover:-translate-y-0.5 hover:bg-white"
-            >
-              <span aria-hidden>{">"}</span>
-            </button>
-          </div>
+          {!isComplete ? (
+            <div className="flex items-center gap-3">
+              {!isFirst && (
+                <button
+                  type="button"
+                  onClick={goPrev}
+                  aria-label="Previous question"
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--border)] bg-white/80 text-xl text-[var(--ink)] transition hover:-translate-y-0.5 hover:bg-white"
+                >
+                  <span aria-hidden>{"<"}</span>
+                </button>
+              )}
+              {!isLast && (
+                <button
+                  type="button"
+                  onClick={goNext}
+                  aria-label="Next question"
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--border)] bg-white/80 text-xl text-[var(--ink)] transition hover:-translate-y-0.5 hover:bg-white"
+                >
+                  <span aria-hidden>{">"}</span>
+                </button>
+              )}
+            </div>
+          ) : null}
         </header>
 
         <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow)] md:p-8">
-          {!isContact ? (
+          {isComplete ? (
+            <div className="space-y-3">
+              <p className="text-lg">
+                Your answers are in. We will keep building with your feedback in
+                mind.
+              </p>
+              <p className="text-sm text-[var(--muted)]">
+                You can close this tab or pass it along to someone else.
+              </p>
+            </div>
+          ) : !isContact ? (
             <label className="flex flex-col gap-3">
               <span className="text-xs uppercase tracking-[0.35em] text-[var(--muted)]">
                 Your feedback
@@ -169,19 +197,24 @@ export default function Home() {
           )}
         </section>
 
-        <button
-          type="button"
-          className="w-full rounded-2xl bg-[var(--accent)] py-6 text-2xl font-semibold text-[var(--accent-ink)] transition hover:-translate-y-1 hover:shadow-xl"
-        >
-          Submit
-        </button>
+        {!isComplete ? (
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="w-full rounded-2xl bg-[var(--accent)] py-6 text-2xl font-semibold text-[var(--accent-ink)] transition hover:-translate-y-1 hover:shadow-xl"
+          >
+            Submit
+          </button>
+        ) : null}
 
-        <div className="flex items-center justify-between text-xs uppercase tracking-[0.35em] text-[var(--muted)]">
-          <span>
-            Question {index + 1} of {total}
-          </span>
-          <span>Use arrows to cycle</span>
-        </div>
+        {!isComplete ? (
+          <div className="flex items-center justify-between text-xs uppercase tracking-[0.35em] text-[var(--muted)]">
+            <span>
+              Question {index + 1} of {total}
+            </span>
+            <span>Use arrows to cycle</span>
+          </div>
+        ) : null}
       </div>
     </main>
   );
